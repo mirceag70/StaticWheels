@@ -243,6 +243,13 @@ inline void AddPrime(uint64_t prime)
 	last_primes[idx_last_primes++] = prime; 
 }
 
+inline thread_local uint8_t idx_last_primes_t = 0;
+inline thread_local std::array<uint64_t, 256> last_primes_t;
+inline void AddPrimeThreaded(uint64_t prime)
+{
+	last_primes_t[idx_last_primes_t++] = prime;
+}
+
 #ifndef ITERATIONS
 #define ITERATIONS	5
 #endif 
@@ -298,3 +305,6 @@ constexpr uint8_t BIT_RESET_MASK[] = { ~1, ~2, ~4, ~8, ~16, ~32, ~64, ~128 };
 
 inline uint64_t idx2no(uint64_t idx) { return 3 * idx + 5 - (idx & 1); };
 inline uint64_t no2idx(uint64_t no) { return no / 3 - 1; };
+
+constexpr unsigned ROOT_LIMIT = 10'000'000u;
+constexpr unsigned NO_ROOT_PRIMES = 664'577u;

@@ -24,5 +24,11 @@
     <ClCompile Include="RootedSoE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WheelPattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RootPrimes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

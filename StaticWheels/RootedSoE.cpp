@@ -102,8 +102,6 @@ uint64_t SoE_rooted1(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
 {
     InitializeRootSieve2(rootN);
 
-    //auto idx2no = [](uint64_t idx) { return 3 * idx + 5 - (idx & 1); };
-    //auto no2idx = [](uint64_t no) { return no / 3 - 1; };
     auto SetBit = [&](uint64_t bitidx)
     {
         uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
@@ -117,10 +115,9 @@ uint64_t SoE_rooted1(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
 
     const uint64_t i_max = Nmax / (3ull * 8);
     const uint64_t Nsqrt = (uint64_t)floor(sqrt(Nmax));
+    for (uint64_t i = 0; i <= i_max; i++) vPrimes[i] = 0;
     unsigned numPrimes = rootN;
     for (unsigned i = 0; i < rootN; i++) AddPrime(firstPrimes[i]);
-
-    for (uint64_t i = 0; i <= i_max; i++) vPrimes[i] = 0;
 
     uint64_t p = 1ull + root_sieve[0];
     unsigned ip = 1;
@@ -128,9 +125,8 @@ uint64_t SoE_rooted1(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
         if (!GetBit(no2idx(p)))
         {
             numPrimes++; AddPrime(p);
-            uint64_t n = 1ull + root_sieve[0];
-            unsigned in = 1;
-            for (; n * p <= Nmax; n += root_sieve[in], in = nextWheelIdx(in))
+            uint64_t n = p;
+            for (unsigned in = ip; n * p <= Nmax; n += root_sieve[in], in = nextWheelIdx(in))
                 SetBit(no2idx(n * p));
         }
 

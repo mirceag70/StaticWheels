@@ -168,7 +168,7 @@ auto GetBit = [&](uint64_t bitidx, unsigned char sv[])
 };
 void SieveRoots(const unsigned char N, tpPrime root_sieve_tmp[])
 {
-    std::cout << " - 6k bit sieve";
+    //std::cout << " (6k 1bit root sieve)";
 
     const tpPrime svlen = primorial / 24 + 1;
     unsigned char* sv = new unsigned char[svlen];
@@ -230,7 +230,7 @@ void InitializeRootSieve2(const unsigned char N)
 
     delete[] root_sieve_tmp;
 
-    tmr.Stop(true, "rot sieve");
+    tmr.Stop(true, "6k 1bit root sieve");
 
     //std::cout << "\nValues: " << root_sieve_size << " / Primorial: " << primorial;
     //std::cout << " / Max gap: " << maxV; nln();
