@@ -44,10 +44,9 @@ uint64_t SoE_6k(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
     return numPrimes;
 }
 
-void InitializeRootSieve2(const unsigned char N);
+void InitializeRootSieve2(const unsigned char N, bool vb = false);
 
-extern const unsigned rootN;
-extern uint16_t firstPrimes[];
+extern unsigned root_N;
 extern unsigned char root_sieve[];
 extern unsigned root_sieve_size;// , root_sieve_N;
 
@@ -55,7 +54,7 @@ unsigned nextWheelIdx(unsigned idx) { return ((idx < (root_sieve_size - 1)) ? id
 
 uint64_t SoE_rooted(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
 {
-    InitializeRootSieve2(rootN);
+    InitializeRootSieve2(root_N);
 
     //auto idx2no = [](uint64_t idx) { return 3 * idx + 5 - (idx & 1); };
     //auto no2idx = [](uint64_t no) { return no / 3 - 1; };
@@ -72,8 +71,8 @@ uint64_t SoE_rooted(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
 
     const uint64_t i_max = Nmax / (3ull * 8);
     const uint64_t Nsqrt = (uint64_t)floor(sqrt(Nmax));
-    unsigned numPrimes = rootN;
-    for (unsigned i = 0; i < rootN; i++) AddPrime(firstPrimes[i]);
+    unsigned numPrimes = root_N;
+    for (unsigned i = 0; i < root_N; i++) AddPrime(firstPrimes[i]);
 
     for (uint64_t i = 0; i <= i_max; i++) vPrimes[i] = 0;
 
@@ -100,7 +99,7 @@ uint64_t SoE_rooted(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
 
 uint64_t SoE_rooted1(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
 {
-    InitializeRootSieve2(rootN);
+    InitializeRootSieve2(root_N);
 
     auto SetBit = [&](uint64_t bitidx)
     {
@@ -116,8 +115,8 @@ uint64_t SoE_rooted1(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
     const uint64_t i_max = Nmax / (3ull * 8);
     const uint64_t Nsqrt = (uint64_t)floor(sqrt(Nmax));
     for (uint64_t i = 0; i <= i_max; i++) vPrimes[i] = 0;
-    unsigned numPrimes = rootN;
-    for (unsigned i = 0; i < rootN; i++) AddPrime(firstPrimes[i]);
+    unsigned numPrimes = root_N;
+    for (unsigned i = 0; i < root_N; i++) AddPrime(firstPrimes[i]);
 
     uint64_t p = 1ull + root_sieve[0];
     unsigned ip = 1;

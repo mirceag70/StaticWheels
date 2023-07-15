@@ -6,12 +6,15 @@
 #include <cassert>
 #include <array>
 #include <thread>
+#include <future>
 #include <numeric>
+#include <execution>
 #include <fstream>
 #include <chrono>
 #include <limits>
 #include <functional>
 #include <typeinfo>
+#include <ranges>
 
 class cTimer
 {
@@ -254,6 +257,29 @@ inline void AddPrimeThreaded(uint64_t prime)
 #define ITERATIONS	5
 #endif 
 
+constexpr unsigned firstPrimes[] = {
+		 2,         3,         5,         7,        11,        13,        17,        19,
+		23,        29,        31,        37,        41,        43,        47,        53,
+		59,        61,        67,        71,        73,        79,        83,        89,
+		97,       101,       103,       107,       109,       113,       127,       131,
+	   137,       139,       149,       151,       157,       163,       167,       173,
+	   179,       181,       191,       193,       197,       199,       211,       223,
+	   227,       229,       233,       239,       241,       251,       257,       263,
+	   269,       271,       277,       281,       283,       293,       307,       311,
+	   313,       317,       331,       337,       347,       349,       353,       359,
+	   367,       373,       379,       383,       389,       397,       401,       409,
+	   419,       421,       431,       433,       439,       443,       449,       457,
+	   461,       463,       467,       479,       487,       491,       499,       503,
+	   509,       521,       523,       541,       547,       557,       563,       569,
+	   571,       577,       587,       593,       599,       601,       607,       613,
+	   617,       619,       631,       641,       643,       647,       653,       659,
+	   661,       673,       677,       683,       691,       701,       709,       719,
+	   727,       733,       739,       743,       751,       757,       761,       769,
+	   773,       787,       797,       809,       811,       821,       823,       827,
+	   829,       839,       853,       857,       859,       863,       877,       881,
+	   883,       887,       907,       911,       919,       929,       937,       941,
+	   947,       953,       967,       971,       977,       983,       991,       997 };
+
 template<typename INTEGRAL1, typename INTEGRAL2, typename INTEGRAL3,
 		std::size_t size1, std::size_t size2 = 0, std::size_t size3 = 0>
 void Try_Sieve(const uint64_t LIMIT, std::string message,
@@ -303,8 +329,60 @@ void Try_Sieve(const uint64_t LIMIT, std::string message,
 constexpr uint8_t BIT_MASK[] = { 1, 2, 4, 8, 16, 32, 64, 128 };
 constexpr uint8_t BIT_RESET_MASK[] = { ~1, ~2, ~4, ~8, ~16, ~32, ~64, ~128 };
 
+constexpr void SetBit(const uint64_t bitidx, uint8_t sv[])
+{
+	uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
+	sv[idx] |= BIT_MASK[bit];
+};
+constexpr void ResetBit(uint64_t bitidx, uint8_t sv[])
+{
+	uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
+	sv[idx] &= BIT_RESET_MASK[bit];
+};
+constexpr auto GetBit(uint64_t bitidx, uint8_t sv[])
+{
+	uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
+	return (sv[idx] & BIT_MASK[bit]);
+};
+constexpr void FlipBit(uint64_t bitidx, uint8_t sv[])
+{
+	uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
+	sv[idx] ^= BIT_MASK[bit];
+};
+
 inline uint64_t idx2no(uint64_t idx) { return 3 * idx + 5 - (idx & 1); };
 inline uint64_t no2idx(uint64_t no) { return no / 3 - 1; };
 
-constexpr unsigned ROOT_LIMIT = 10'000'000u;
-constexpr unsigned NO_ROOT_PRIMES = 664'577u;
+// use 7 up to 10^14, 8 up to 10^16, 9 up tp 10^18 or 10 up to 2^64
+// for 9 and 10 the gaps are halfed
+#define LIMIT_lg10 7
+constexpr unsigned ROOT_LIMIT_lg10 = LIMIT_lg10; 
+static_assert( ROOT_LIMIT_lg10 >= 7 or ROOT_LIMIT_lg10 <= 9, "ROOT_LIMIT must be 7, 8 or 9" );
+//10 is not yet corrected
+
+constexpr unsigned PI[11] = // minus 2, for primes 2 and 3 (which are not computed)
+	{ 0,0,0,0,0,0,    78'498,    664'577,   5'761'453,     50'847'532, 203'280'219 };
+constexpr unsigned ROOT_LIMITS[11] = 
+	{ 0,0,0,0,0,0, 1'000'000, 10'000'000, 100'000'000,  1'000'000'000, 0xFFFF'FFFF };
+
+constexpr unsigned NO_ROOT_PRIMES = PI[ ROOT_LIMIT_lg10 ];
+constexpr unsigned ROOT_LIMIT = ROOT_LIMITS[ROOT_LIMIT_lg10 ];
+
+// for code supposed to be unreachable
+#ifdef DEBUG
+# define NEVERHERE   assert(0)
+#else
+# define NEVERHERE   __assume(0)
+#endif
+
+typedef std::array<uint8_t, 256> tp256BitV;
+consteval tp256BitV generate_bit0_count_table()
+{
+	tp256BitV v = { 0 };
+	//bit 1 count
+	for (int i = 1; i < v.size(); i++) v[i] = v[i / 2] + (i & 1);
+	//bit 0 count 
+	for (int i = 0; i < v.size(); i++) v[i] = 8 - v[i];
+	return v;
+}
+constexpr tp256BitV bit0_count_table = generate_bit0_count_table();

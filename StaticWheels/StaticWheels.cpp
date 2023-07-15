@@ -3,7 +3,7 @@
 #include "Helper.h"
 
 void InitializeRootSieve1(const unsigned char N);
-void InitializeRootSieve2(const unsigned char N);
+void InitializeRootSieve2(const unsigned char N, bool vb = false);
 void InitializeRootSieve3(const unsigned char N);
 
 uint64_t SoE_6k(const uint64_t Nmax, uint8_t vPrimes[], void*, void*);
@@ -11,10 +11,17 @@ uint64_t SoE_rooted(const uint64_t Nmax, uint8_t vPrimes[], void*, void*);
 uint64_t SoE_rooted1(const uint64_t Nmax, uint8_t vPrimes[], void*, void*);
 
 uint64_t SoE_w8pat(const uint64_t Nmax, uint8_t vPrimes[], void*, void*);
+uint64_t SoE_w8pat_inc(const uint64_t Nmax, uint8_t vPrimes[], void*, void*);
+uint64_t SoE_w8pat_inc1(const uint64_t Nmax, uint8_t vPrimes[], void*, void*);
+uint64_t SoE_w8pat_inc2(const uint64_t Nmax, uint8_t vPrimes[], void*, void*);
 
-extern const unsigned rootN; 
-const unsigned rootN = 4u;
-constexpr uint64_t LIMIT = 1000000000;
+uint64_t SoE_pat_free(const uint64_t Nmax, void*, void*, void*);
+
+unsigned root_N = 7u;
+//constexpr uint64_t LIMIT = 1'000'000'000'000;
+//constexpr uint64_t LIMIT = 0xffff'ffff;
+//constexpr uint64_t LIMIT = (1ull << 32) - 0;
+constexpr uint64_t LIMIT = 100'000'000'000'000;
 
 //uint64_t idx2no30_armtc(uint64_t idx)
 //{
@@ -80,23 +87,58 @@ constexpr uint64_t LIMIT = 1000000000;
 //    tmr.Stop(true);
 //}
 
+void testCSA(void);
+void test_initializations(void);
+void testforsw(unsigned start)
+{
+    constexpr unsigned sz = 100;
+    unsigned arr[sz]{};
+    unsigned i = start;
+
+    switch (start)
+    {
+        default:    NEVERHERE;
+
+        for (;;)
+        {
+            case 1: arr[i++] = 55; if (i == sz) break;
+            case 2: arr[i++] = 55; if (i == sz) break;
+            case 3: arr[i++] = 55; if (i == sz) break;
+            case 4: arr[i++] = 55; if (i == sz) break;
+            case 5: arr[i++] = 55; if (i == sz) break;
+        }
+    }
+}
+
 int main()
 {
     std::locale mylocale("");   // get global locale 
     std::cout.imbue(mylocale);  // imbue global locale for thousands delimiter
 
-    //InitializeRootSieve1(rootN);
-    //InitializeRootSieve2(rootN);
-    //InitializeRootSieve3(rootN);
+    //testCSA(); return 0;
+    //test_initializations(); return 0;
+    //testforsw(4); return 0;
+
+    //InitializeRootSieve1(root_N);
+    //InitializeRootSieve2(root_N); return 0;
+    //InitializeRootSieve3(root_N);
 
     //Try_Sieve<uint8_t, int, int, LIMIT / 24 + 1>
     //    (LIMIT, "SoE 6k 1bit", &SoE_6k, false);
     //Try_Sieve<uint8_t, int, int, LIMIT / 24 + 1>
     //    (LIMIT, "SoE rooted", &SoE_rooted, false);
-    Try_Sieve<uint8_t, int, int, LIMIT / 24 + 1>
-        (LIMIT, "SoE rooted+", &SoE_rooted1, false);
-    Try_Sieve<uint8_t, int, int, 8*(LIMIT / (8*30) + 1)>
-        (LIMIT, "SoE pattern 8", &SoE_w8pat, false);
-
+    //Try_Sieve<uint8_t, int, int, LIMIT / 24 + 1>
+    //    (LIMIT, "SoE rooted+", &SoE_rooted1, false);
+    //Try_Sieve<uint8_t, int, int, 8*(LIMIT / (8*30) + 1)>
+    //    (LIMIT, "SoE pattern 8", &SoE_w8pat, false);
+    //Try_Sieve<uint8_t, int, int, 8 * (LIMIT / (8 * 30) + 1)>
+    //    (LIMIT, "SoE pattern 8 - incremental", &SoE_w8pat_inc, false);
+    //Try_Sieve<uint8_t, int, int, 8 * (LIMIT / (8 * 30) + 1)>
+    //    (LIMIT, "SoE pattern 8 - inc.vector", &SoE_w8pat_inc1, false);
+    //Try_Sieve<uint8_t, int, int, 8 * (LIMIT / (8 * 30) + 1)>
+    //    (LIMIT, "SoE pattern 8 - inc.vector.full", &SoE_w8pat_inc2, false);
+    Try_Sieve<int, int, int, 0>
+        (LIMIT, "SoE pattern - free", &SoE_pat_free, false);
+    
     return 0;
 }

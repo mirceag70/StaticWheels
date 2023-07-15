@@ -129,11 +129,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="buckets.cpp" />
+    <ClCompile Include="FreeGen.cpp" />
+    <ClCompile Include="wheels_test.cpp" />
     <ClCompile Include="GenWheel.cpp" />
     <ClCompile Include="RootedSoE.cpp" />
     <ClCompile Include="RootPrimes.cpp" />
+    <ClCompile Include="Segmented.cpp" />
     <ClCompile Include="StaticWheels.cpp" />
     <ClCompile Include="WheelPattern.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="wheels.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
