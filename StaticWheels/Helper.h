@@ -334,24 +334,24 @@ constexpr void SetBit(const uint64_t bitidx, uint8_t sv[])
 	uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
 	sv[idx] |= BIT_MASK[bit];
 };
-constexpr void ResetBit(uint64_t bitidx, uint8_t sv[])
+constexpr void ResetBit(const uint64_t bitidx, uint8_t sv[])
 {
 	uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
 	sv[idx] &= BIT_RESET_MASK[bit];
 };
-constexpr auto GetBit(uint64_t bitidx, uint8_t sv[])
+constexpr auto GetBit(const uint64_t bitidx, uint8_t sv[])
 {
 	uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
 	return (sv[idx] & BIT_MASK[bit]);
 };
-constexpr void FlipBit(uint64_t bitidx, uint8_t sv[])
+constexpr void FlipBit(const uint64_t bitidx, uint8_t sv[])
 {
 	uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
 	sv[idx] ^= BIT_MASK[bit];
 };
 
-inline uint64_t idx2no(uint64_t idx) { return 3 * idx + 5 - (idx & 1); };
-inline uint64_t no2idx(uint64_t no) { return no / 3 - 1; };
+constexpr uint64_t idx2no(const uint64_t idx) { return 3 * idx + 5 - (idx & 1); };
+constexpr uint64_t no2idx(const uint64_t no) { return no / 3 - 1; };
 
 // use 7 up to 10^14, 8 up to 10^16, 9 up tp 10^18 or 10 up to 2^64
 // for 9 and 10 the gaps are halfed
@@ -386,3 +386,9 @@ consteval tp256BitV generate_bit0_count_table()
 	return v;
 }
 constexpr tp256BitV bit0_count_table = generate_bit0_count_table();
+
+constexpr auto range(unsigned max) { return std::views::iota(0u, max); }
+constexpr auto range(unsigned start, unsigned max) { return std::views::iota(start, max); }
+
+constexpr size_t values4N[] =
+{ 0, 1, 2, 8, 48, 480, 5'760, 92'160, 1'658'880, 36'495'360, 1'021'870'080 };

@@ -17,12 +17,9 @@
 					// P(15) =	  614,889,782,588,491,410
 					// P(16) = 14,142,414,403,480,493,114
 
-constexpr size_t values4N[] =
-{ 0, 1, 2, 8, 48, 480, 5'760, 92'160, 1'658'880, 36'495'360, 1'058'365'440 };
-
 tpPrime primorial;
-unsigned char root_sieve[values4N[10]];
-unsigned root_sieve_size = 0;
+unsigned char root_sieve[values4N[10] + 1];
+tpPrime root_sieve_size = 0;
 unsigned root_sieve_N = 0;
 
 //brute force
@@ -120,7 +117,7 @@ void InitializeRootSieve1(const unsigned char N)
 
     delete[] root_sieve_tmp;
 
-    tmr.Stop(true);
+    tmr.Stop(true, "wheel init");
 
     std::cout << "\nValues: " << root_sieve_size << " / Primorial: " << primorial;
     std::cout << " / Max gap: " << maxV; nln();
@@ -128,24 +125,9 @@ void InitializeRootSieve1(const unsigned char N)
 }
 
 //6k sieving
-//void SetBit(const uint64_t bitidx, uint8_t sv[])
-//{
-//    uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
-//    sv[idx] |= BIT_MASK[bit];
-//};
-//auto ResetBit = [&](uint64_t bitidx, unsigned char sv[])
-//{
-//    uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
-//    sv[idx] &= BIT_RESET_MASK[bit];
-//};
-//auto GetBit = [&](uint64_t bitidx, unsigned char sv[])
-//{
-//    uint64_t idx = bitidx / 8; uint8_t bit = (uint8_t)(bitidx % 8);
-//    return (sv[idx] & BIT_MASK[bit]);
-//};
 void SieveRoots(const unsigned char N, tpPrime root_sieve_tmp[])
 {
-    //std::cout << " (6k 1bit root sieve)";
+    std::cout << " - 6k 1bit";
 
     const tpPrime svlen = primorial / 24 + 1;
     unsigned char* sv = new unsigned char[svlen];
@@ -158,13 +140,16 @@ void SieveRoots(const unsigned char N, tpPrime root_sieve_tmp[])
         for (tpPrime n = p; n < primorial; n += p * step , step = 6 - step)
             SetBit(no2idx(n), sv);
     }
-    
+
     root_sieve_size = 0; root_sieve_tmp[root_sieve_size++] = 1;
     tpPrime n = firstPrimes[N];
     unsigned char step = ((n - 6*(n/6)) == 1) ? 4 : 2;
     for (; n < primorial; n += step, step = 6 - step)
         if (!GetBit(no2idx(n), sv))
             root_sieve_tmp[root_sieve_size++] = n;
+            //root_sieve_size++;
+
+    //std::cout << root_sieve_size; nln();
 
     delete[] sv;
 }
@@ -186,9 +171,9 @@ void InitializeRootSieve2(const unsigned char N, bool vb = false)
 
     tpPrime* root_sieve_tmp = new tpPrime[values4N[N]];
 
-    SieveRoots(N, root_sieve_tmp);
+    SieveRoots(N, root_sieve_tmp); 
     assert(root_sieve_size == values4N[N]);
-
+    
 #pragma warning(push)
 #pragma warning(disable:6385)
     // transform absolute values in step increments
@@ -199,7 +184,7 @@ void InitializeRootSieve2(const unsigned char N, bool vb = false)
         assert(gap < 256); root_sieve[i - 1] = gap;
         if (root_sieve[i - 1] > maxV) maxV = root_sieve[i - 1];
     }
-#pragma warning(disable:6001)
+//#pragma warning(disable:6001)
     gap = (unsigned)(primorial + 1 - root_sieve_tmp[root_sieve_size - 1]);
     assert(gap < 256); root_sieve[root_sieve_size - 1] = gap;
     if (root_sieve[root_sieve_size - 1] > maxV) maxV = root_sieve[root_sieve_size - 1];
@@ -207,7 +192,7 @@ void InitializeRootSieve2(const unsigned char N, bool vb = false)
 
     delete[] root_sieve_tmp;
 
-    tmr.Stop(true, "6k 1bit root sieve");
+    tmr.Stop(true, "wheel init");
 
     if (vb)
     {
@@ -432,7 +417,7 @@ void InitializeRootSieve3(const unsigned char N)
 
     delete[] root_sieve_tmp;
 
-    tmr.Stop(true);
+    tmr.Stop(true, "wheel init");
 
     std::cout << "\nValues: " << root_sieve_size << " / Primorial: " << primorial;
     std::cout << " / Max gap: " << maxV; nln();

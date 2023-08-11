@@ -215,6 +215,7 @@ void CountOneChunk(uint8_t vPrimes[], const unsigned nt, const unsigned i, const
             flg17 = pflg17[i], flg19 = pflg19[i], flg23 = pflg23[i], flg29 = pflg29[i];
         cnt += (tpPrime)bit0_count_table[flg1] + bit0_count_table[flg7] + bit0_count_table[flg11] + bit0_count_table[flg13]
             + bit0_count_table[flg17] + bit0_count_table[flg19] + bit0_count_table[flg23] + bit0_count_table[flg29];
+#define GENERATE_PRIMES
 #ifdef GENERATE_PRIMES
         //effectively generate the primes in order
         {
@@ -679,8 +680,8 @@ uint64_t SoE_w8pat_inc1(const uint64_t Nmax, uint8_t vPrimes[], void*, void*)
     std::vector<std::thread> vt;
     for (unsigned i = 0; i < sv8size; i++)
     {
-        //vt.push_back(std::thread(&SieveChunksRInc, i, Nmax, svlen, vPrimes + i * svlen));
-        SieveChunksRInc(i, Nmax, svlen, vPrimes + i * svlen);
+        vt.push_back(std::thread(&SieveChunksRInc, i, Nmax, svlen, vPrimes + i * svlen));
+        //SieveChunksRInc(i, Nmax, svlen, vPrimes + i * svlen);
     }
     for (auto& t : vt) t.join();
 

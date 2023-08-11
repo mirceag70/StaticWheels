@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{eff6e1ca-253f-45fd-b936-d22c9748229c}</ProjectGuid>
-    <RootNamespace>StaticWheels</RootNamespace>
+    <ProjectGuid>{292a94f1-5983-4499-a862-3b6d4586e557}</ProjectGuid>
+    <RootNamespace>WheelsExtra</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -126,26 +126,22 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BigWheel.cpp" />
-    <ClCompile Include="buckets.cpp" />
-    <ClCompile Include="FreeGen.cpp" />
-    <ClCompile Include="wheels_test.cpp" />
-    <ClCompile Include="GenWheel.cpp" />
-    <ClCompile Include="RootedSoE.cpp" />
-    <ClCompile Include="RootPrimes.cpp" />
-    <ClCompile Include="Segmented.cpp" />
-    <ClCompile Include="StaticWheels.cpp" />
-    <ClCompile Include="WheelPattern.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="wheels.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
+    <ClCompile Include="357.cpp" />
+    <ClCompile Include="cCachedGen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="cFastGen.cpp" />
+    <ClCompile Include="cHeapGenerator-init.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="cHeapGenerator-work.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="cSeedPrimes.cpp" />
+    <ClCompile Include="WheelsExtra.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -275,7 +275,7 @@ void MarkSquares(uint8_t work_sieve[], const tpPrime limit, const unsigned rem)
 };
 
 uint8_t svrp[4 * (ROOT_LIMIT / 96 + 2)];
-uint8_t root_primes_gap[NO_ROOT_PRIMES];
+uint8_t root_primes_gap[NO_ROOT_PRIMES+1];
 constexpr unsigned NTC = 6; static_assert(NTC == 6, "NTC must be 6");
 constexpr unsigned firstIdx7[NTC] = { 0, 125'793, 239'115, 348'510, 455'379, 560'685 };
 constexpr unsigned gap7[NTC] = { 0, 30, 2, 36, 62, 30 };
@@ -421,4 +421,6 @@ void SoA_LP_gen_root_primes(void)
 	std::cout << "Root Primes initialization success for N = " << LIMIT_lg10;
 	exit(15);
 #endif
+
+	root_primes_gap[NO_ROOT_PRIMES] = 255;
 }

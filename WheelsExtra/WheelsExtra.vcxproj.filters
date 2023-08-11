@@ -15,43 +15,26 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="StaticWheels.cpp">
+    <ClCompile Include="WheelsExtra.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GenWheel.cpp">
+    <ClCompile Include="cHeapGenerator-init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RootedSoE.cpp">
+    <ClCompile Include="cHeapGenerator-work.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WheelPattern.cpp">
+    <ClCompile Include="357.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RootPrimes.cpp">
+    <ClCompile Include="cCachedGen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Segmented.cpp">
+    <ClCompile Include="cSeedPrimes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="buckets.cpp">
+    <ClCompile Include="cFastGen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="wheels_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FreeGen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BigWheel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="wheels.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
