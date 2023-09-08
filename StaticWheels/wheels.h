@@ -438,7 +438,7 @@ constexpr unsigned byte_bits = 8; static_assert(byte_bits == 8);
 // the batch is divided in chunks
 // chuncks in one batch are processed sequentially / incrementally
 // data for one chunk should fit in cache
-constexpr unsigned chunk_bytes_lg2 = 18;   // 2^16 = 64k
+constexpr unsigned chunk_bytes_lg2 = 19;   // 2^16 = 64k
 constexpr unsigned chunk_bytes = 1 << chunk_bytes_lg2;
 // try to have sizes as 2^n everytime
 static_assert(chunk_bytes == 1 << chunk_bytes_lg2);
