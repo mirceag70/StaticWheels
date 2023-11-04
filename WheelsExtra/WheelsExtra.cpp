@@ -19,13 +19,13 @@ int main()
 
     //testHeapGenerator(LIMIT);
     
-    //test357(LIMIT);
-    //testCachedSieve(LIMIT, true);
-    //testCachedSieve2T(LIMIT);
-    //testAdvancedCachedSieve(LIMIT, true);
+    test357(LIMIT);
+    testCachedSieve(LIMIT, true);
+    testCachedSieve2T(LIMIT);
+    testAdvancedCachedSieve(LIMIT, true);
     testAdvancedCachedSieve2T(LIMIT);
 
-    //testCachedSieve(LIMIT, false);
-    //testAdvancedCachedSieve(LIMIT2, false);
+    testCachedSieve(LIMIT, false);
+    testAdvancedCachedSieve(LIMIT2, false);
 }
 

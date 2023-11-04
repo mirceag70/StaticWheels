@@ -150,7 +150,7 @@ void testforsw(unsigned start)
 
 
 unsigned root_N = 4u;
-constexpr uint64_t LIMIT = 1'000'000'000;
+constexpr uint64_t LIMIT = 1000'000'000'000;
 //constexpr uint64_t LIMIT = 0xffff'ffff;
 //constexpr uint64_t LIMIT = (1ull << 36) - 0;
 //constexpr uint64_t LIMIT = 100'00'000'00;
@@ -169,18 +169,18 @@ int main()
     //testforsw(4); return 0;
     //test_wheels(); return 0;
 
-    InitializeRootSieve1(root_N);         // brute force
-    InitializeRootSieve3(root_N);         // SoP
-    InitializeRootSieve2(root_N, true);   // 1bit 6k
+    //InitializeRootSieve1(root_N);         // brute force
+    //InitializeRootSieve3(root_N);         // SoP
+    //InitializeRootSieve2(root_N, true);   // 1bit 6k
     //*return 0;
 
     //Basic wheel based sieving
-    Try_Sieve<uint8_t, int, int, LIMIT / 24 + 1>
-        (LIMIT, "SoE 6k 1bit", &SoE_6k, false);
+    //Try_Sieve<uint8_t, int, int, LIMIT / 24 + 1>
+    //    (LIMIT, "SoE 6k 1bit", &SoE_6k, false);
     //*Try_Sieve<uint8_t, int, int, LIMIT / 24 + 1>
     //*    (LIMIT, "SoE rooted", &SoE_rooted, false);
-    Try_Sieve<uint8_t, int, int, LIMIT / 24 + 1>
-        (LIMIT, "SoE rooted+", &SoE_rooted1, false);
+    //Try_Sieve<uint8_t, int, int, LIMIT / 24 + 1>
+    //    (LIMIT, "SoE rooted+", &SoE_rooted1, false);
     
     //*Try_Sieve<uint8_t, int, int, 8*(LIMIT / (8*30) + 1)>
     //*    (LIMIT, "SoE pattern 8", &SoE_w8pat, false);
@@ -193,6 +193,7 @@ int main()
     Try_Sieve<uint8_t, int, int, 8 * (LIMIT / (8 * 30) + 1)>
         (LIMIT, "SoE pattern 8 - W3 8T", &SoE_w8pat_inc2, false);
 
+    //W3-6
     Try_Sieve<int, int, int, 0>
         (LIMIT, "SoE pattern - free", &SoE_pat_free, false);   
     //*Try_Sieve<int, int, int, 0>
@@ -200,6 +201,7 @@ int main()
     //*Try_Sieve<int, int, int, 0>
     //*    (LIMIT, "SoE pattern - bit + list", &SoE_bitpat_free1, false);
 
+    //W7
     InitBigWheel();
     Try_Sieve<int, int, int, 0>
         (LIMIT, "SoE pattern - w7", &SoE_pat_w7, false);
